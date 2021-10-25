@@ -11,11 +11,12 @@ pair<int,int> blue;
 pair<int,int> hole;
 int dy[4] = {0,1,0,-1};
 int dx[4] = {1,0,-1,0};
-
+int cnt = 0;
 bool isWall(pair<int,int> marble){
     for(int i=0;i<wall.size();i++){
         pair<int,int> w = wall[i];
         if(marble.first == w.first && marble.second == w.second)
+        cnt++;
         return true;
     }
     return false;
@@ -32,108 +33,55 @@ bool isMarble(pair<int,int> marble, pair<int,int> marble2){
     else return false; 
 }
 void move(int swi){
-    if(swi==0){ // right
-        while(true){
-            //cout<<"While True : \n";
-            pair<int,int> nextRed = make_pair(red.first,red.second+1);
-            pair<int,int> nextBlue = make_pair(blue.first,blue.second+1);
-            if((red.first == blue.first && red.second>blue.second)){ // 같은 줄에 있고 빨간색이 더 오른쪽이면
-              //  cout<<"red front"<<"\n";
-                if(!isWall(nextRed)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextRed)) break; //빨간색이 벽에 닿아있는 상태면 끝냄
-                if(isHole(red)) break;; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-            else if((red.first == blue.first && red.second<blue.second)){
-             //   cout<<"blue front"<<"\n";
-                if(!isWall(nextBlue)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextBlue)) break;
-                if(isHole(red)) break;; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
+   bool done = false;
+   pair<int,int> nextRed;
+   pair<int,int> nextBlue;
+   while(!done){
+       bool H_sameline = false; //가로가 같은거
+       bool W_sameline = false; //세로가 같은거
+       bool redpositive = false;
+       nextRed = make_pair(red.first + dy[swi], red.second + dx[swi]);
+       nextBlue = make_pair(blue.first + dy[swi], blue.second + dx[swi]);
+
+       if(isMarble(nextRed,nextBlue)){
+           if((red.second > blue.second && red.first == blue.first))
+           { 
+               H_sameline = true;
+               redpositive = true;
+           }else if((red.second == blue.second && red.first > blue.first)){
+               W_sameline = true;
+               redpositive = true;
+           }
         }
-    }
-    else if(swi==1){ // down
-        while(true){
-            //cout<<"While True : \n";
-            pair<int,int> nextRed = make_pair(red.first+1,red.second);
-            pair<int,int> nextBlue = make_pair(blue.first+1,blue.second);
-            if((red.first > blue.first && red.second==blue.second)){ // 같은 줄에 있고 빨간색이 더 아래쪽이면
-              //  cout<<"red front"<<"\n";
-                if(!isWall(nextRed)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextRed)) break; //빨간색이 벽에 닿아있는 상태면 끝냄
-                if(isHole(red)) break;; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-            else if((red.first < blue.first && red.second==blue.second)){
-             //   cout<<"blue front"<<"\n";
-                if(!isWall(nextBlue)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextBlue)) break;
-                if(isHole(red)) break;; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-        }
-    }
-    else if(swi==2){ // left
-        while(true){
-            //cout<<"While True : \n";
-            pair<int,int> nextRed = make_pair(red.first,red.second-1);
-            pair<int,int> nextBlue = make_pair(blue.first,blue.second-1);
-            if((red.first == blue.first && red.second<blue.second)){ // 같은 줄에 있고 빨간색이 더 왼쪽이면
-              //  cout<<"red front"<<"\n";
-                if(!isWall(nextRed)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextRed)) break; //빨간색이 벽에 닿아있는 상태면 끝냄
-                if(isHole(red)) break;; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-            else if((red.first == blue.first && red.second>blue.second)){
-             //   cout<<"blue front"<<"\n";
-                if(!isWall(nextBlue)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextBlue)) break;
-                if(isHole(red)) break;; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-        }
-    }
-    else if(swi==3){ // up
-        while(true){
-            //cout<<"While True : \n";
-            pair<int,int> nextRed = make_pair(red.first-1,red.second);
-            pair<int,int> nextBlue = make_pair(blue.first-1,blue.second);
-            if((red.first < blue.first && red.second==blue.second)){ // 같은 줄에 있고 빨간색이 더 위쪽이면
-              //  cout<<"red front"<<"\n";
-                if(!isWall(nextRed)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextRed)) break; //빨간색이 벽에 닿아있는 상태면 끝냄
-                if(isHole(red)) break; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-            else if((red.first > blue.first && red.second==blue.second)){
-             //   cout<<"blue front"<<"\n";
-                if(!isWall(nextBlue)){
-                    red = nextRed;
-                    blue = nextBlue;
-                } else if(isWall(nextBlue)) break;
-                if(isHole(red)) break; //빨간색이 들어가면?
-                if(isHole(blue)) break;
-            }
-        }
-    }
-    if(isHole(red)) cout<<"RED HOLE IN\n";
-    else if(isHole(blue)) cout<<"BLUE HOLE IN\n";
+
+       if(!isWall(nextRed)) red = nextRed;
+       if(!isWall(nextBlue)) blue = nextBlue;
+       if(W_sameline){
+           cout<<"W_sameline start, "<<red.first<<" "<<red.second<<" "<<blue.first<<" "<<blue.second;
+           if(redpositive){
+               blue.first--;
+           } else red.first--;
+       }
+       else if(H_sameline){
+           cout<<"H_sameline start, "<<red.first<<" "<<red.second<<" "<<blue.first<<" "<<blue.second;
+           if(redpositive){
+               blue.second--;
+           } else red.second--;
+       }
+       if(isWall(nextRed) && isWall(nextBlue)) done = true;
+       if(isHole(nextRed) || isHole(nextBlue)) done = true;
+        cout<<"HERE";
+   }
+   if(nextRed == hole){
+       red = nextRed;
+       cout<<"RED HOLE IN";
+       return;
+   }
+   if(nextBlue == hole){
+       blue = nextBlue;
+       cout<<"BLUE HOLE IN";
+       return;
+   }
 }
 
 int main(){
@@ -159,7 +107,7 @@ int main(){
     for(int h=0;h<Height;h++){
         for(int w=0;w<Width;w++){
             if(board[h][w] == '#')
-                wall.push_back(make_pair(h,w));
+                wall.push_back(make_pair() h,w));
             if(board[h][w] == 'R')
                 red = (make_pair(h,w));
             if(board[h][w] == 'B')
