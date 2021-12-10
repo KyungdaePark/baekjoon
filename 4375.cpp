@@ -26,14 +26,16 @@
 using namespace std;
 
 int main(){
-    int n; cin>>n;
-    int tmp = 1;
-    int count = 1;
-    while(true){
-        if(tmp % 3 == 0) break;
-        tmp = (tmp*10+1);
-        tmp = tmp % 3;
-        count++;
+    int n; 
+    while(cin>>n){
+      int tmp = 1;
+      int count = 1;
+      while(true){
+          if(tmp % n == 0) break;
+          tmp = (tmp*10+1);
+          tmp = tmp % n;
+          count++;
+      }
+      cout<<count<<endl;
     }
-    cout<<count<<endl;
 }
