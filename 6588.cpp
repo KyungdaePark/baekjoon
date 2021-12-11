@@ -4,6 +4,9 @@
     b도 역시 벡터에 들어있는지 체크한다.
     없다면 다른 a로 넘어간다.
     모두 체크했는데 없다면 오류 출력
+
+    시간초과로 인해 b도 벡터에 들어있는지 체크하는 과정을
+    binary search를 이용해 진행했다.
 */
 
 #include<iostream>
@@ -11,6 +14,14 @@
 using namespace std;
 int dp[1000001]{};
 vector<int> v;
+
+int search(int target, int start, int end){
+    int mid = (start+end)/2;
+    if(v[mid] == target) return v[mid];
+    if(start>end) return -1;
+    if(v[mid] > target) return search(target, start, mid-1);
+    if(v[mid] < target) return search(target, mid+1, end);
+}
 int main(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -29,21 +40,19 @@ int main(){
             v.push_back(dp[i]);
         }
     }
-    int n;
+    int n; int find=0;
     while(cin>>n){
         if(n==0) break;
         bool judge = false;
         for(int a=0;a<v.size();a++){
             if(v[a] > n) break;
             int b = n - v[a];
-            for(int i = 0; i<v.size();i++){
-                if(v[i] == b){
-                    cout<<n<<" = "<<v[a]<<" + "<<v[i]<<"\n";
-                    judge = true;
-                    break;
-                }
+            find = search(b, 0, v.size()-1);
+            if(find!=-1) judge=true;
+            if(judge){
+                cout<<n<<" = "<<v[a]<<" + "<<find<<"\n";
+                break;
             }
-            if(judge) break;
         }
         if(!judge) cout<<"Goldbach's conjecture is wrong."<<"\n";
     }    
