@@ -16,15 +16,32 @@
 #include<algorithm>
 using namespace std;
 char map[51][51];
-
 int func_cal(int n){
     int result = 1;
     for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(map[i][j] < )
-        } 
+        for(int k=0;k<n-2;k++){
+            int count = 1;
+            for(int j=k;j<n-1;j++){
+               if(map[i][j] == map[i][j+1]) count++;
+               else break;
+            }
+            result = max(result, count);
+        }        
     }
+
+    for(int j=0;j<n;j++){
+        for(int k=0;k<n-2;k++){
+            int count = 1;
+            for(int i=k;i<n-1;i++){
+               if(map[i+1][j] == map[i][j]) count++;
+               else break;
+            }
+            result = max(result, count);
+        }        
+    }
+    return result;
 }
+
 int main(){
     int N; cin>>N;
     for(int i=0;i<N;i++){
@@ -32,5 +49,18 @@ int main(){
             cin>>map[i][j];
         }
     }
-    
+    int result = 0;
+    for(int i=0;i<N;i++){
+        for(int j=0;j<N-1;j++){
+            swap(map[i][j],map[i][j+1]);
+            result = max(result,func_cal(N));
+            swap(map[i][j],map[i][j+1]);
+
+            swap(map[j+1][i],map[j][i]);
+            result = max(result,func_cal(N));
+            swap(map[j+1][i],map[j][i]);
+        }
+    }
+    cout<<result;
 }
+
