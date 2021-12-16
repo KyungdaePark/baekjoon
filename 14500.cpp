@@ -28,16 +28,22 @@ void dfs(int start_y, int start_x, int depth, int sum){
         dfs_result = max(sum, dfs_result);
         return;
     }
-    if(visited[start_y][start_x]) return;
+    //if(visited[start_y][start_x]) return;
     if(start_y < 0 || start_y == N || start_x < 0 || start_x == M) return;
 
-    visited[start_y][start_x] = true;
+    //visited[start_y][start_x] = true;
     sum+=board[start_y][start_x];
 
-    cout<<"NOW DEPTH IS : "<<depth<<" "<<sum<<" "<<start_x <<" "<< start_y<<"\n";
+    //cout<<"NOW DEPTH IS : "<<depth<<" "<<sum<<" "<<start_x <<" "<< start_y<<"\n";
 
     for(int i=0;i<4;i++){
-        dfs(start_y + dy[i], start_x + dx[i], depth+1, sum);
+        int next_y = start_y + dy[i];
+        int next_x = start_x + dx[i];
+        if(!visited[next_y][next_x]){
+            visited[start_y+dy[i]][start_x+dx[i]] = true;
+            dfs(start_y + dy[i], start_x + dx[i], depth+1, sum);
+            visited[start_y+dy[i]][start_x+dx[i]] = false;
+        }
     }
 }
        
@@ -59,8 +65,10 @@ void shape(int start_y, int start_x){
 
 
 void func_cal(int y, int x){
+    visited[y][x] = true;
     dfs(y,x,1,0);
     shape(y,x);
+    visited[y][x] = false;
 }
 int main(){
     cin>>N>>M;
