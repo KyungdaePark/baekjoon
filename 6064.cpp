@@ -31,7 +31,7 @@ int main(){
         int i = x;
         while(1){    
             if(lcm(N,M)<i) break;
-            if(i%M==y){
+            if(i%M==y%M){
                 ans = i;
                 break;
             }
