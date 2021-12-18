@@ -7,7 +7,7 @@ int N,M;
 int arr[9];
 bool visited[9]={false};
 
-void dfs(int cnt,int num){ 
+void dfs(int cnt){ //cnt는 총개수
     if(cnt==M){
         for(int i=0;i<M;i++){
             cout<<arr[i]<<" ";
@@ -16,12 +16,10 @@ void dfs(int cnt,int num){
         return;
     }
 
-    for(int i=num;i<=N;i++){ 
+    for(int i=1;i<=N;i++)    { 
         if(!visited[i]){
-            visited[i] = true;
             arr[cnt] = i;
-            dfs(cnt+1,i+1);
-            visited[i] = false;
+            dfs(cnt+1);
         }        
     }
    
@@ -29,5 +27,5 @@ void dfs(int cnt,int num){
 
 int main(){
     cin>>N>>M;
-    dfs(0,1);
+    dfs(0);
 }

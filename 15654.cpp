@@ -1,13 +1,14 @@
-
 #include<iostream>
+#include<algorithm>
 #include<vector>
 using namespace std;
 
 int N,M;
 int arr[9];
+vector<int> v;
 bool visited[9]={false};
 
-void dfs(int cnt,int num){ 
+void dfs(int cnt){
     if(cnt==M){
         for(int i=0;i<M;i++){
             cout<<arr[i]<<" ";
@@ -16,18 +17,22 @@ void dfs(int cnt,int num){
         return;
     }
 
-    for(int i=num;i<=N;i++){ 
+    for(int i=0;i<N;i++){ 
         if(!visited[i]){
             visited[i] = true;
-            arr[cnt] = i;
-            dfs(cnt+1,i+1);
+            arr[cnt] = v[i];
+            dfs(cnt+1);
             visited[i] = false;
         }        
     }
-   
 }
 
 int main(){
     cin>>N>>M;
-    dfs(0,1);
+    for(int i=0; i<N;i++){
+        int tmp; cin>>tmp;
+        v.push_back(tmp);
+    }
+    sort(v.begin(),v.end());
+    dfs(0);
 }

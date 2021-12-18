@@ -18,10 +18,8 @@ void dfs(int cnt,int num){
 
     for(int i=num;i<=N;i++){ 
         if(!visited[i]){
-            visited[i] = true;
             arr[cnt] = i;
-            dfs(cnt+1,i+1);
-            visited[i] = false;
+            dfs(cnt+1,i);
         }        
     }
    
