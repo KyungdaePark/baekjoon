@@ -36,12 +36,9 @@ void dfs(int depth,int sum){
     bool ok = false;
     for(int y=0;y<N;y++){
         for(int x=0;x<M;x++){ //이중포문을 dfs 안에서 처리할 경우, 시작 지점 자체에서 새로운 dfs를 계속해서 만들어내므로, main함수에서 이중포문을 사용했을땐 한칸씩만 움직일 수 있었던 것들이 여기서는 범위 내에서 자유롭게 움직 일 수 있다. (시작 지점 x, y 가 게속해서 바뀌기 때문에, 좀 비효율적이더라도 어짜피 visited가 해결해준다.)
-           
             if(!visited[y][x] && check(y,x)){
             visited[y][x] = true;
-            sum+=board[y][x];
-            cout<<y<<" "<<x<<" "<<sum<<" "<<depth<<"\n";
-            dfs(depth+1, sum);
+            dfs(depth+1, sum+board[y][x]);
             visited[y][x] = false;
             }
         }
