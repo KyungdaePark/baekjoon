@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<cmath>
+#include<cstdlib>
 #define MAX 21
 using namespace std;
 
@@ -10,70 +11,69 @@ int sum2 = 0;
 int result = 99999;
 int map[MAX][MAX];
 int arr[MAX];
-int arr2[3];
 bool visited[MAX] = {false};
-bool visited2[MAX] = {false};
-void sum_dfs(vector<int>, vector<int>,int,int);
-void dfs(int start,int cnt){
-    if(cnt == N/2){
-        vector<int> v1;
+
+
+void dfs(int idx, int cnt, int target,int end,vector<int> v){
+    if(cnt == target){
         for(int i=0;i<cnt;i++){
-            v1.push_back(arr[i]);
+            v.push_back(arr[i]);
         }
-        vector<int> v2;
-        for(int i=0;i<N;i++){
-            for(int j=0;j<v1.size();j++){
-                if(i != v1[j]) v2.push_back(i);
-            }
-        }
-        sum_dfs(v1,v2,0,0);
-        sum1 = 0; sum2 = 0;
+        return;
     }
-    for(int i=start;i<N;i++){
+    for(int i=idx;i<end;i++){
         if(!visited[i]){
-            visited[i] = true;
+            visited[i]=true;
             arr[cnt] = i;
-            dfs(i,cnt+1);
-            visited[i] = false;
+            dfs(i,cnt+1,target,end,v)
+            visited[i]=false;
         }
     }
 }
-
-void sum_dfs(vector<int> v1, vector<int> v2, int idx, int cnt){
-    if(cnt == 2){
-        sum1 += map[v1[arr2[0]]][v1[arr2[1]]];
-        sum2 += map[v2[arr2[0]]][v2[arr2[1]]]; //....
-        int dif = abs(sum1 - sum2);
-        if(dif < result){
-            cout<<"sum1 : "<<sum1<<"sum2 : "<<sum2<<"dif : "<<dif<<"\n";
-            cout<<"[";
-            for(int i=0;i<v1.size();i++){
-                cout<<v1[i]<<" ";
-            } cout<<"]\n";
-            cout<<"[";
-            for(int i=0;i<v2.size();i++){
-                cout<<v2[i]<<" ";
-            } cout<<"]\n";
-            result = dif;
-        }
-    }
-    for(int i=idx;i<3;i++){
-        if(!visited2[i]){
-            visited2[i] = true;
-            arr2[cnt] = i;
-            sum_dfs(v1,v2,i,cnt+1);
-            visited2[i] = false;            
+void cal(int arr[], vector<int> arr2){
+    vector<int> v;
+    dfs(0,0,2,arr2.size(),v);   
+    int cnt =0;
+    int arr3[3];
+    for(int i=0;i<v.size();i++){
+        arr3[cnt] = v[i];
+        if(cnt==2){
+            for(int i=0;i<)
         }
     }
 }
+void sol(){
+    vector<int> v;
+    dfs(0,0,N/2,end,v); //target은 숫자 몇개씩 묶을건지 end는 0부터 몇까지 계산할건지 //v는 그것들을 저장할 벡터
+    int cnt = 0;
+    int arr[3];
+    vector<int> arr2;
+    for(int i=0;i<v.size();i++){
+        arr[cnt] = v[i];
+        cnt++;
+        if(cnt==2){
+            for(int j=0;j<N;j++){
+                for(int k=0;k<3;k++){
+                    if(j!=v[k]){
+                        arr2.push_back(j);
+                    }
+                }
+            }
+            cal(arr,arr2);
+            memset(arr2,0,sizeof(arr2)); //grammar
+            cnt=0;
+        }
 
-int main(){
+    }
+}
+int main()터
     cin>>N;
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
             cin>>map[i][j];
         }
     }
-    dfs(0,0);
-    cout<<result;
+    sol();
+    
+    
 }
