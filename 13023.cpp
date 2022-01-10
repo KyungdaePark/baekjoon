@@ -12,14 +12,16 @@ void dfs(vector<int> v[], int start, int cnt){
         return;
     }
     if(check) return;
+    visited[start] = true;
         for(int j=0;j<v[start].size();j++){
             int next = v[start][j];
             if(!visited[next]){
-                    visited[next] = true;
+             //       visited[next] = true;
                     dfs(v,next,cnt+1);
-                    visited[next] = false;
+              //      visited[next] = false;
             }
         }
+    visited[start] = false;
 }
 int main(){
     cin>>N>>M;
