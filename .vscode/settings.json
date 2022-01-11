@@ -3,6 +3,7 @@
     "files.associations": {
         "*.html": "html",
         "vector": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "iostream": "cpp"
     }
 }
