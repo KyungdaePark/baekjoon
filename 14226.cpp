@@ -3,6 +3,8 @@
 #include<vector>
 #include<cstring>
 using namespace std;
+
+#define INF 9999999
 int dp[1001];
 //bool dp[1001]={false};
 vector<int> v;
@@ -10,36 +12,38 @@ int main(){
     int S; cin>>S;
     queue<pair<int,int>> q; //before, now
     for(int i=0;i<1001;i++){
-        dp[i] = -1;
+        dp[i] = INF;
     }
     q.push({-1,1});
     while(!q.empty()){
-        int before = q.front().first;
+        int clip = q.front().first;
         int now = q.front().second;
+       // cout<<now<<" ";
         q.pop();
-        if(before==-1){
+        if(clip==-1){
             q.push({1,2});
+            dp[1] = 0;
+            dp[2] = 2;
             continue;
         }
-        if(dp[now]==-1){
-            dp[now] = before;
-        }
-        if(now == S){
-            break;
-        }
-        for(int next:{now*2, before+now, now-1}){
-            if(next>=2 && next<=1000 && dp[next]==-1){
-                q.push({now,next});
+        for(int elem : {now*2, now+clip, now-1}){
+            if(elem>=0 && elem<= 1000){
+             if(elem == now*2){
+                 if(dp[now] + 2 <= dp[elem]){
+                      dp[elem] = dp[now]+2;
+                      q.push({now,elem}); //now를 복사한 격
+                 }
+                }
+             else{
+                 if(dp[now] + 1 <= dp[elem]){
+                     dp[elem] = dp[now]+1;
+                     q.push({clip,elem}); //clip은 그대로 가져가는 격 
+                 }
+               }
             }
         }
     }
-    for(int i=S;i!=1;i=dp[i]){
-        v.push_back(i);
+    for(int i=0;i<100;i++){
+        cout<<i <<" "<<dp[i]<<" \n";
     }
-    int cnt =0;
-    for(int i=0;i<v.size()-1;i++){
-        if(v[i]/v[i+1] == 2 && v[i] % v[i+1] ==0) cnt+=2;
-        else cnt++;
-    }
-    cout<<cnt+2;
-}
+}   
