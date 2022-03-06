@@ -10,38 +10,38 @@ int dp[1001];
 vector<int> v;
 int main(){
     int S; cin>>S;
-    queue<pair<int,int>> q; //before, now
+    queue<pair<pair<int,int>,int>> q; //clip, now, before
     for(int i=0;i<1001;i++){
         dp[i] = INF;
     }
-    q.push({-1,1});
+    q.push({{-1,1},1});
     while(!q.empty()){
-        int clip = q.front().first;
-        int now = q.front().second;
-       // cout<<now<<" ";
+        int clip = q.front().first.first;
+        int now = q.front().first.second;
+        int before = q.front().second;
         q.pop();
         if(clip==-1){
-            q.push({1,2});
+            q.push({{0,1},1});
             dp[1] = 0;
-            dp[2] = 2;
             continue;
         }
-        for(int elem : {now*2, now+clip, now-1}){
-            if(elem>=0 && elem<= 1000){
-             if(elem == now*2){
-                 if(dp[now] + 2 <= dp[elem]){
-                      dp[elem] = dp[now]+2;
-                      q.push({now,elem}); //now를 복사한 격
-                 }
-                }
-             else{
-                 if(dp[now] + 1 <= dp[elem]){
-                     dp[elem] = dp[now]+1;
-                     q.push({clip,elem}); //clip은 그대로 가져가는 격 
-                 }
-               }
-            }
+        if(now == clip*2){
+            if(dp[now]>=dp[before]+2) dp[now] = dp[before]+2;
         }
+        else{
+            if(dp[now]>=dp[before]+1) dp[now] = dp[before]+1;
+        }
+
+        for(int elem : {now*2, clip+now, now-1}){
+            if(now*2 == elem) q.push({{now,elem},now});
+            else q.push({{clip,elem},now});
+        }
+    
+        for(int i=0;i<11;i++){
+            cout<<i<<" "<<dp[i]<<"\n";
+        }
+        cout<<clip<<" "<<now<<" "<<before<<"\n";
+        cout<<"---------------";    
     }
     for(int i=0;i<100;i++){
         cout<<i <<" "<<dp[i]<<" \n";

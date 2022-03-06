@@ -1,82 +1,43 @@
+#include <string>
+#include <vector>
+#include <sstream>
 #include<iostream>
-#include<queue>
- 
-#define endl "\n"
-#define MAX 2000
+
 using namespace std;
- 
-int S;
-bool Visit[MAX][MAX];
- 
-void Input()
-{
-    cin >> S;
-}
- 
-int BFS()
-{
-    queue<pair<pair<int, int>, int> > Q;
-    Q.push(make_pair(make_pair(1, 0), 0));
-    Visit[1][0] = true;    // 화면, 클립보드
- 
-    while (Q.empty() == 0)
-    {
-        int Dis = Q.front().first.first;
-        int Clip = Q.front().first.second;
-        int Time = Q.front().second;
-        Q.pop();
- 
-        if (Dis == S) return Time;
-        
-        if (Dis > 0 && Dis < MAX)
-        {
-            //1번 & 3번 조건
-            if (Visit[Dis][Dis] == false)
-            {
-                Visit[Dis][Dis] = true;
-                Q.push(make_pair(make_pair(Dis, Dis), Time + 1));
-            }
- 
-            if (Visit[Dis - 1][Clip] == false)
-            {
-                Visit[Dis - 1][Clip] = true;
-                Q.push(make_pair(make_pair(Dis - 1, Clip), Time + 1));
-            }
-        }
- 
-        if (Clip > 0 && Dis+Clip < MAX)
-        {
-            if (Visit[Dis + Clip][Clip] == false)
-            {
-                Visit[Dis + Clip][Clip] = true;
-                Q.push(make_pair(make_pair(Dis + Clip, Clip), Time + 1));
-            }
-        }
+
+
+int finduser(string s, vector<string> id_list){
+    for(int i=0;i<id_list.size();i++){
+        if(id_list[i] == s) return i;
     }
 }
- 
- 
-void Solution()
-{
-    int R = BFS();
-    cout << R << endl;
-}
- 
-void Solve()
-{
-    Input();
-    Solution();
-}
- 
-int main(void)
-{
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
- 
-    //freopen("Input.txt", "r", stdin);
-    Solve();
- 
-    return 0;
+vector<string> solution(vector<string> id_list, vector<string> report, int k) {
+    vector<string> answer;
+    vector<string> inputs;
+    for(int i=0;i<report.size();i++){
+        string tmp = report[i];
+        istringstream ss(tmp);
+        string stringBuffer;
+        while(getline(ss,stringBuffer,' ')){
+            answer.push_back(stringBuffer);
+        }
+    }
+    return answer;
 }
 
+int main(){
+    vector<string> id_list;
+    vector<string> report;
+    id_list.push_back("con");
+    id_list.push_back("ryan");
+
+    report.push_back("ryan con");
+    report.push_back("ryan con");
+    report.push_back("ryan con");
+    report.push_back("ryan con");
+
+    vector<string> answers(solution(id_list, report, 3));
+    for(int i=0;i<answers.size();i++){
+        cout<<" "<<answers[i]<<" ";
+    }
+}
