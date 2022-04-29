@@ -1,43 +1,36 @@
-#include <string>
-#include <vector>
-#include <sstream>
-#include<iostream>
+                                                                                          37,1          Bot
+#include<stdio.h>
+#include<string.h>
+#include<unistd.h>
+void main(){
+   char *x[10];
+   char buf[20];
+   char buf2[100];
+   int i=0;
+   int j=0;
+   int y=0;
+   char *token;
+   for(i=0; i<5; i++){
+          y=fork();
+          getcwd(buf2,100);
 
-using namespace std;
+          if(y==0){
+                 printf("[%s]$ ",buf2);
+                 fgets(buf,99,stdin);
+                 buf[strlen(buf)-1]=0;
+                 token=strtok(buf, " ");
 
-
-int finduser(string s, vector<string> id_list){
-    for(int i=0;i<id_list.size();i++){
-        if(id_list[i] == s) return i;
-    }
-}
-vector<string> solution(vector<string> id_list, vector<string> report, int k) {
-    vector<string> answer;
-    vector<string> inputs;
-    for(int i=0;i<report.size();i++){
-        string tmp = report[i];
-        istringstream ss(tmp);
-        string stringBuffer;
-        while(getline(ss,stringBuffer,' ')){
-            answer.push_back(stringBuffer);
-        }
-    }
-    return answer;
-}
-
-int main(){
-    vector<string> id_list;
-    vector<string> report;
-    id_list.push_back("con");
-    id_list.push_back("ryan");
-
-    report.push_back("ryan con");
-    report.push_back("ryan con");
-    report.push_back("ryan con");
-    report.push_back("ryan con");
-
-    vector<string> answers(solution(id_list, report, 3));
-    for(int i=0;i<answers.size();i++){
-        cout<<" "<<answers[i]<<" ";
-    }
+                 for(;;){
+                         if(token==NULL)break;
+                         x[j]=token;
+                         token=strtok(NULL," ");
+                         j++;
+                 }
+          }
+          else{
+                 wait(NULL);
+          }
+                 x[j]=0;
+                 execve(x[0], x, 0);
+   }
 }
